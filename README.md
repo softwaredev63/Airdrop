@@ -1,2 +1,2 @@
 # Airdrop
-2Local Airdrop
+Airdrop smart contract for 2Local 
