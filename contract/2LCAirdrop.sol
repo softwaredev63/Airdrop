@@ -1144,6 +1144,13 @@ contract Airdrop2local is Ownable {
 
     function doAirdrop() external onlyOwner {
         address[] memory topBuyers = getTopBuyers();
+        for (uint256 i = 0; i < topBuyers.length; i ++){
+            address buyer = topBuyers[i];
+            if (buyer == address(0)) continue;
+            uint256 amount = buyerInfo[buyer].mul(100).div(100).div(i + 1);
+            local.transferFrom(wallet, address(this), amount);
+            safeLocalTransfer(buyer, amount);
+        }
     }
 
     // Safe local transfer function, just in case if rounding error causes pool to not have enough 2LCs.
