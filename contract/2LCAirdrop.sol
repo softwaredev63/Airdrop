@@ -1102,38 +1102,48 @@ contract Airdrop2local is Ownable {
         }
     }
 
-    function getTopBuyers() internal view returns (uint256[] memory topBuyers) {
-        topBuyers = new uint256[](3);
+    function getTopBuyers() internal view returns (address[] memory topBuyers) {
+        topBuyers = new address[](3);
         uint256 firstBuyeramount;
         uint256 secondBuyeramount;
         uint256 thirdBuyeramount;
+        address firstBuyer;
+        address secondBuyer;
+        address thirdBuyer;
         
         for (uint256 i = 0; i < buyers.length; i ++) {
             address buyer = buyers[i];
             uint256 buyerAmount = local.balanceOf(buyer);
-            if (buyerAmount > firstBuyeramount)
+            if (buyerAmount > firstBuyeramount){
                 firstBuyeramount = buyerAmount;
+                firstBuyer = buyer;
+            }
+                
         }
-        topBuyers[0] = firstBuyeramount;
+        topBuyers[0] = firstBuyer;
         for (uint256 i = 0; i < buyers.length; i ++) {
             address buyer = buyers[i];
             uint256 buyerAmount = local.balanceOf(buyer);
-            if (buyerAmount > secondBuyeramount && buyerAmount < firstBuyeramount)
+            if (buyerAmount > secondBuyeramount && buyerAmount < firstBuyeramount){
                 secondBuyeramount = buyerAmount;
+                secondBuyer = buyer;
+            }
         }
-        topBuyers[1] = secondBuyeramount;
+        topBuyers[1] = secondBuyer;
         for (uint256 i = 0; i < buyers.length; i ++) {
             address buyer = buyers[i];
             uint256 buyerAmount = local.balanceOf(buyer);
-            if (buyerAmount > thirdBuyeramount && buyerAmount < secondBuyeramount)
+            if (buyerAmount > thirdBuyeramount && buyerAmount < secondBuyeramount) {
                 thirdBuyeramount = buyerAmount;
+                thirdBuyer = buyer;
+            }
+                
         }
-        topBuyers[2] = thirdBuyeramount;
-
+        topBuyers[2] = thirdBuyer;
     }
 
     function doAirdrop() external onlyOwner {
-        
+        address[] memory topBuyers = getTopBuyers();
     }
 
     // Safe local transfer function, just in case if rounding error causes pool to not have enough 2LCs.
