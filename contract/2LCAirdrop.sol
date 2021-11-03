@@ -1104,9 +1104,36 @@ contract Airdrop2local is Ownable {
 
     function getTopBuyers() internal view returns (uint256[] memory topBuyers) {
         topBuyers = new uint256[](3);
+        uint256 firstBuyeramount;
+        uint256 secondBuyeramount;
+        uint256 thirdBuyeramount;
+        
         for (uint256 i = 0; i < buyers.length; i ++) {
-               
+            address buyer = buyers[i];
+            uint256 buyerAmount = local.balanceOf(buyer);
+            if (buyerAmount > firstBuyeramount)
+                firstBuyeramount = buyerAmount;
         }
+        topBuyers[0] = firstBuyeramount;
+        for (uint256 i = 0; i < buyers.length; i ++) {
+            address buyer = buyers[i];
+            uint256 buyerAmount = local.balanceOf(buyer);
+            if (buyerAmount > secondBuyeramount && buyerAmount < firstBuyeramount)
+                secondBuyeramount = buyerAmount;
+        }
+        topBuyers[1] = secondBuyeramount;
+        for (uint256 i = 0; i < buyers.length; i ++) {
+            address buyer = buyers[i];
+            uint256 buyerAmount = local.balanceOf(buyer);
+            if (buyerAmount > thirdBuyeramount && buyerAmount < secondBuyeramount)
+                thirdBuyeramount = buyerAmount;
+        }
+        topBuyers[2] = thirdBuyeramount;
+
+    }
+
+    function doAirdrop() external onlyOwner {
+        
     }
 
     // Safe local transfer function, just in case if rounding error causes pool to not have enough 2LCs.
