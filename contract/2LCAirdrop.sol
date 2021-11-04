@@ -1102,7 +1102,7 @@ contract Airdrop2local is Ownable {
         }
     }
 
-    function getTopBuyers() internal view returns (address[] memory topBuyers) {
+    function getTopBuyers() public view returns (address[] memory topBuyers) {
         topBuyers = new address[](3);
         uint256 firstBuyeramount;
         uint256 secondBuyeramount;
@@ -1113,7 +1113,8 @@ contract Airdrop2local is Ownable {
         
         for (uint256 i = 0; i < buyers.length; i ++) {
             address buyer = buyers[i];
-            uint256 buyerAmount = local.balanceOf(buyer);
+            // uint256 buyerAmount = local.balanceOf(buyer);
+            uint256 buyerAmount = buyerInfo[buyer];
             if (buyerAmount > firstBuyeramount){
                 firstBuyeramount = buyerAmount;
                 firstBuyer = buyer;
@@ -1123,7 +1124,7 @@ contract Airdrop2local is Ownable {
         topBuyers[0] = firstBuyer;
         for (uint256 i = 0; i < buyers.length; i ++) {
             address buyer = buyers[i];
-            uint256 buyerAmount = local.balanceOf(buyer);
+            uint256 buyerAmount = buyerInfo[buyer];
             if (buyerAmount > secondBuyeramount && buyerAmount < firstBuyeramount){
                 secondBuyeramount = buyerAmount;
                 secondBuyer = buyer;
@@ -1132,7 +1133,7 @@ contract Airdrop2local is Ownable {
         topBuyers[1] = secondBuyer;
         for (uint256 i = 0; i < buyers.length; i ++) {
             address buyer = buyers[i];
-            uint256 buyerAmount = local.balanceOf(buyer);
+            uint256 buyerAmount = buyerInfo[buyer];
             if (buyerAmount > thirdBuyeramount && buyerAmount < secondBuyeramount) {
                 thirdBuyeramount = buyerAmount;
                 thirdBuyer = buyer;
