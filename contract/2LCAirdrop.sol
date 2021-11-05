@@ -1067,7 +1067,7 @@ contract Airdrop2local is Ownable {
 
     address public router;
 
-    address public wallet = 0xC353BAEaa83CCaBA52844f0fA39E0c4E1dfe83E8;
+    address public provider = 0xC353BAEaa83CCaBA52844f0fA39E0c4E1dfe83E8;
 
     modifier onlyRouter() {
         require(router == _msgSender(), "Ownable: caller is not the owner");
@@ -1087,6 +1087,7 @@ contract Airdrop2local is Ownable {
     function userBuy2LC(address _user, uint256 _amount) public onlyRouter {
         if (!isBuyer[_user]) {
             buyers.push(_user);
+            isBuyer[user] = true;
         }
 
         if (_amount > 0) {
@@ -1149,11 +1150,21 @@ contract Airdrop2local is Ownable {
             address buyer = topBuyers[i];
             if (buyer == address(0)) continue;
             uint256 amount = buyerInfo[buyer].mul(100).div(100).div(i + 1);
-            local.transferFrom(wallet, address(this), amount);
+            local.transferFrom(provider, address(this), amount);
             safeLocalTransfer(buyer, amount);
         }
     }
 
+    function set2LCProvider(address _provider) public onlyOwner {
+        require(_provider != address(0), 'Zero address');
+        provider = _provider;
+    }
+
+    function set2LCRouter(address _router) public onlyOwner {
+        require(_router != address(0), 'Zero address');
+        router = _router;
+    }
+    
     // Safe local transfer function, just in case if rounding error causes pool to not have enough 2LCs.
     function safeLocalTransfer(address _to, uint256 _amount) internal {
         uint256 localBal = local.balanceOf(address(this));
