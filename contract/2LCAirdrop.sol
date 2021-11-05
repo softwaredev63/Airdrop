@@ -1087,7 +1087,7 @@ contract Airdrop2local is Ownable {
     function userBuy2LC(address _user, uint256 _amount) public onlyRouter {
         if (!isBuyer[_user]) {
             buyers.push(_user);
-            isBuyer[user] = true;
+            isBuyer[_user] = true;
         }
 
         if (_amount > 0) {
