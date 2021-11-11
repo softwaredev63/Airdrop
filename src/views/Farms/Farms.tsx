@@ -15,6 +15,8 @@ import { fetchFarmUserDataAsync } from 'state/actions'
 import { QuoteToken } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
+import AirdropCard from './components/FarmCard/AirdropCard'
+
 import FarmTabButtons from './components/FarmTabButtons'
 import Divider from './components/Divider'
 
@@ -106,25 +108,17 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
         return { ...farm, apy }
       })
       return farmsToDisplayWithAPY.map((farm) => (
-        <FarmCard
-          key={farm.pid}
-          farm={farm}
-          removed={removed}
-          bnbPrice={bnbPrice}
-          cakePrice={cakePrice}
-          ethereum={ethereum}
-          account={account}
-        />
+        <FarmCard />
       ))
     },
-    [bnbPrice, account, cakePrice, ethereum],
+    [],
   )
 
   return (
     <div>
       <Page>
         <TopBar>
-          <Description>{TranslateString(999, 'Staking Pools')}</Description>
+          <Description>{TranslateString(999, 'Airdrop')}</Description>
           {/* <FarmingButton href="https://exchange.2local.io/#/pool">Stake 2LC-LP tokens</FarmingButton> */}
         </TopBar>
         {/* <Heading as="h2" color="secondary" mb="50px" style={{ textAlign: 'center' }}>
@@ -135,7 +129,11 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
         <Divider />
         <FlexLayout>
           <Route exact path={`${path}`}>
-            {stakedOnly ? farmsList(stakedOnlyFarms, false) : farmsList(activeFarms, false)}
+            <AirdropCard
+              ethereum={ethereum}
+              account={account}
+            />
+            <FarmCard />
           </Route>
           {/* <Route exact path={`${path}/oct`}>
               {stakedOnly ? farmsList(stakedOnlyClawFarms, false) : farmsList(clawFarms, false)}

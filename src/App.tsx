@@ -46,7 +46,7 @@ const App: React.FC = () => {
               <Farms tokenMode/>
             </Route>
             <Route path="/staking">
-              <Farms tokenMode/>
+              <Home />
             </Route>
             <Route path="/launch-pools">
              <Pools />
