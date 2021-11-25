@@ -31,6 +31,13 @@ export interface Pool extends PoolConfig {
   }
 }
 
+export interface Airdrop {
+  userData?:
+  {
+    address?: string
+    balance?: BigNumber
+  }
+}
 // Slices states
 
 export interface FarmsState {
@@ -41,9 +48,14 @@ export interface PoolsState {
   data: Pool[]
 }
 
+export interface AirdropState {
+  data: Airdrop[]
+}
+
 // Global state
 
 export interface State {
   farms: FarmsState
   pools: PoolsState
+  airdrop: AirdropState
 }
